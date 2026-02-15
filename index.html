@@ -1,0 +1,47 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <meta charset="UTF-8">
+  <title>Redirecting...</title>
+  <script src="https://static.line-scdn.net/liff/edge/2/sdk.js"></script>
+</head>
+<body>
+  <p>読み込み中...</p>
+
+  <script>
+    async function main() {
+      try {
+        await liff.init({ liffId: "YOUR_LIFF_ID" });
+
+        if (!liff.isLoggedIn()) {
+          liff.login();
+          return;
+        }
+
+        const profile = await liff.getProfile();
+        const userId = profile.userId;
+
+        // ▼ あなたのGoogleフォームURLに変更
+        const formBaseUrl = "https://docs.google.com/forms/d/e/XXXXXXXXXXXX/viewform";
+
+        // ▼ あなたのentry番号に変更
+        const entryKey = "entry.1234567890";
+
+        const redirectUrl =
+          formBaseUrl +
+          "?" +
+          entryKey +
+          "=" +
+          encodeURIComponent(userId);
+
+        window.location.href = redirectUrl;
+
+      } catch (error) {
+        document.body.innerHTML = "エラーが発生しました: " + error;
+      }
+    }
+
+    main();
+  </script>
+</body>
+</html>
